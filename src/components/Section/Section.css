@@ -1,0 +1,9 @@
+.section-container {
+  padding: 80px 20px;
+  width: 100%;
+}
+
+.section-content {
+  max-width: 1200px;
+  margin: 0 auto; /* Centraliza na tela */
+}
