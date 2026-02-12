@@ -14,7 +14,7 @@ import imgSala2 from './assets/sala1.JPG';
 import imgDetalhe from './assets/imagem2.jpg'; 
 
 // --- GALERIA DE BAIXO ---
-import imgQuartoSuite2 from './assets/quarto-suite2.jpg';
+import imgQuartoSuite2 from './assets/quarto-suite2.JPG';
 
 // --- IMAGENS PARA O CARROSSEL ---
 import imgVilla1 from './assets/villa1.jpeg';
