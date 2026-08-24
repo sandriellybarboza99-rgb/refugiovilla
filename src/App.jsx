@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Star, MapPin, MessageCircle, Instagram, UtensilsCrossed } from 'lucide-react';
+import { Star, MapPin, MessageCircle, Instagram, UtensilsCrossed, Image as ImageIcon, Circle } from 'lucide-react';
 import Section from './components/Section/Section';
 import Button from './components/Button/Button';
+import PhotoGalleryModal from './components/PhotoGalleryModal/PhotoGalleryModal';
 import { amenities, reviews } from './data';
-import './App.css'; 
+import './App.css';
 
 // --- IMAGENS ---
 import imgLogo from './assets/logorefugio.png';
-import imgFrente from './assets/frente-casa.JPG'; 
-import imgDestaque from './assets/areagourmet2.jpeg'; 
-import imgSala1 from './assets/sala.JPG'; 
-import imgSala2 from './assets/sala1.JPG'; 
-import imgDetalhe from './assets/imagem2.jpg'; 
+import logoPng from './assets/logo.png';
+import imgFrente from './assets/frente-casa.JPG';
+import imgDestaque from './assets/areagourmet2.jpeg';
+import imgSala1 from './assets/sala.JPG';
+import imgSala2 from './assets/sala1.JPG';
+import imgDetalhe from './assets/imagem2.jpg';
 
 // --- GALERIA DE BAIXO ---
 import imgQuartoSuite2 from './assets/quarto-suite2.JPG';
@@ -38,14 +40,54 @@ function App() {
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => 
-        prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
+  // --- ESTADOS DA GALERIA ---
+  const [galleryState, setGalleryState] = useState({
+    isOpen: false,
+    activeGalleryId: null,
+    title: '',
+    photos: []
+  });
+
+  // --- DADOS DOS AMBIENTES (Com fotos mockadas para chegar até 10) ---
+  const environments = [
+    {
+      id: 'sala',
+      title: 'Sala de Estar e Jantar',
+      cover: imgSala1,
+      photos: [imgSala1, imgSala2, imgDetalhe, imgSala1, imgSala2, imgSala1, imgSala2, imgDetalhe, imgSala1, imgSala2] // 10 fotos
+    },
+    {
+      id: 'cozinha',
+      title: 'Cozinha Completa',
+      cover: imgDestaque,
+      photos: [imgDestaque, imgDetalhe, imgDestaque, imgDetalhe, imgDestaque, imgDetalhe, imgDestaque, imgDetalhe, imgDestaque, imgDetalhe]
+    },
+    {
+      id: 'quartos',
+      title: 'Suítes Confortáveis',
+      cover: imgQuartoSuite2,
+      photos: [imgQuartoSuite2, imgQuartoSuite2, imgQuartoSuite2, imgQuartoSuite2, imgQuartoSuite2, imgQuartoSuite2, imgQuartoSuite2, imgQuartoSuite2, imgQuartoSuite2, imgQuartoSuite2]
+    },
+    {
+      id: 'area-externa',
+      title: 'Área Gourmet e Lazer',
+      cover: imgFrente,
+      photos: [imgFrente, imgDestaque, imgVilla1, imgFrente, imgDestaque, imgVilla1, imgFrente, imgDestaque, imgVilla1, imgFrente]
+    }
+  ];
+
+  const openGallery = (env) => {
+    setGalleryState({
+      isOpen: true,
+      activeGalleryId: env.id,
+      title: env.title,
+      photos: env.photos
+    });
+  };
+
+  const closeGallery = () => {
+    setGalleryState({ ...galleryState, isOpen: false });
+  };
 
   // --- LINKS ---
   const abrirAirbnb = () => { window.open('https://www.airbnb.com.br/rooms/40076062', '_blank'); };
@@ -55,45 +97,74 @@ function App() {
 
   return (
     <div className="app">
-      
-      {/* --- HERO / CAPA --- */}
-      <div className="hero animate-fade">
-        {heroImages.map((img, index) => (
-          <div 
-            key={index}
-            className={`hero-bg ${index === currentImageIndex ? 'active' : ''}`}
-            style={{ backgroundImage: `url(${img})` }}
-          ></div>
-        ))}
-        <div className="hero-overlay"></div>
-        
-        <div className="hero-content animate-slide">
-          <h1>Refúgio do Villa</h1>
-          <p>Sua casa de praia exclusiva no Condomínio Villa das Águas.</p>
-          <div className="hero-buttons">
-            <Button variant="primary" onClick={abrirAirbnb}>Ver Disponibilidade</Button>
+
+      {/* --- NAVBAR --- */}
+      <nav className="navbar animate-fade">
+        <div className="nav-content">
+          <div className="nav-logo">
+            <img src={logoPng} alt="Refúgio do Villa" />
           </div>
-          <div className="hero-dots">
-            {heroImages.map((_, index) => (
-              <span key={index} className={`dot ${index === currentImageIndex ? 'active' : ''}`} onClick={() => setCurrentImageIndex(index)}></span>
-            ))}
+          <div className="nav-links">
+            <button className="nav-text-btn" onClick={abrirAirbnb}>Calendário / Disponibilidade</button>
+          </div>
+        </div>
+      </nav>
+
+      {/* --- NOVA HERO INSPIRADA EM CELEBRITY-HOTELS --- */}
+      <div className="new-hero-section">
+        <div className="bg-shape bg-shape-1"></div>
+        <div className="bg-shape bg-shape-2"></div>
+        <div className="new-hero-bg">
+          <div className="new-hero-content animate-slide">
+            <h2 className="new-hero-subtitle">BEM-VINDO AO SEU REFÚGIO NA PRAIA DO SACO</h2>
+            <h1 className="new-hero-title">REFÚGIO DO VILLA,<br />O CENÁRIO PERFEITO PARA DIAS <span className="text-gold">INESQUECÍVEIS</span>.</h1>
           </div>
         </div>
       </div>
 
-      {/* --- O ESPAÇO --- */}
-      <Section id="sobre">
-        <div className="section-header animate-slide">
-          <h2>O Refúgio</h2>
-          <p>Muito mais que uma hospedagem, um refúgio. Localizada na Praia do Saco, dentro do condomínio Villa das Águas, nossa casa oferece área gourmet, cozinha equipada e 4 suítes perfeitas para acomodar até 14 hóspedes com conforto, segurança e exclusividade.</p>
+      <div className="middle-wrapper">
+        {/* --- CARDS DE AMBIENTES SOBREPOSTOS --- */}
+        <div className="overlapping-cards-container animate-fade">
+          <div className="overlapping-cards-scroll">
+            {environments.map((env, idx) => (
+              <div key={env.id} className="celeb-card" onClick={() => openGallery(env)}>
+                <div className="celeb-card-img">
+                  <img src={env.cover} alt={env.title} />
+                </div>
+                <div className="celeb-card-info">
+                  <span className="celeb-card-label">CONHEÇA O AMBIENTE</span>
+                  <div className="celeb-card-title-row">
+                    <h3>{env.title}</h3>
+                    <span className="celeb-arrow">→</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="gallery-grid animate-fade">
-          <div className="photo-highlight"><img src={imgDestaque} alt="Área Gourmet" /></div>
-          <div className="photo-standard"><img src={imgSala1} alt="Ambiente Interno" /></div>
-          <div className="photo-standard"><img src={imgSala2} alt="Sala" /></div>
-          <div className="photo-wide"><img src={imgQuartoSuite2} alt="Suíte" /></div>
+
+        {/* --- MARQUEE DE VANTAGENS --- */}
+        <div className="marquee-container">
+          <div className="marquee-content">
+            <div className="marquee-group">
+              <span>✦ ALUGAMOS PELO AIRBNB</span>
+              <span>✦ ACEITAMOS PET</span>
+              <span>✦ TODAS AS SUÍTES SÃO CLIMATIZADAS</span>
+              <span>✦ CHURRASQUEIRA</span>
+              <span>✦ WIFI</span>
+              <span>✦ TODOS OS QUARTOS SÃO SUÍTES</span>
+            </div>
+            <div className="marquee-group" aria-hidden="true">
+              <span>✦ ALUGAMOS PELO AIRBNB</span>
+              <span>✦ ACEITAMOS PET</span>
+              <span>✦ TODAS AS SUÍTES SÃO CLIMATIZADAS</span>
+              <span>✦ CHURRASQUEIRA</span>
+              <span>✦ WIFI</span>
+              <span>✦ TODOS OS QUARTOS SÃO SUÍTES</span>
+            </div>
+          </div>
         </div>
-      </Section>
+      </div>
 
       {/* --- COMODIDADES --- */}
       <Section className="bg-cream animate-slide">
@@ -118,10 +189,10 @@ function App() {
           <p>Restaurantes incríveis a poucos minutos do condomínio.</p>
         </div>
         <div className="restaurants-grid">
-            <div className="restaurant-card animate-pop"><div className="rest-img-container"><img src={imgRest1} alt="Restaurante 1" /><div className="rest-overlay"><UtensilsCrossed /></div></div><h3>Frutos do Mar JG</h3></div>
-            <div className="restaurant-card animate-pop" style={{animationDelay: '0.2s'}}><div className="rest-img-container"><img src={imgRest2} alt="Restaurante 2" /><div className="rest-overlay"><UtensilsCrossed /></div></div><h3>Ó Pascásio</h3></div>
-            <div className="restaurant-card animate-pop" style={{animationDelay: '0.4s'}}><div className="rest-img-container"><img src={imgRest3} alt="Restaurante 3" /><div className="rest-overlay"><UtensilsCrossed /></div></div><h3>Pizzaria do Careca</h3></div>
-            <div className="restaurant-card animate-pop" style={{animationDelay: '0.6s'}}><div className="rest-img-container"><img src={imgRest4} alt="Restaurante 4" /><div className="rest-overlay"><UtensilsCrossed /></div></div><h3>Villa Grill</h3></div>
+          <div className="restaurant-card animate-pop"><div className="rest-img-container"><img src={imgRest1} alt="Restaurante 1" /><div className="rest-overlay"><UtensilsCrossed /></div></div><h3>Frutos do Mar JG</h3></div>
+          <div className="restaurant-card animate-pop" style={{ animationDelay: '0.2s' }}><div className="rest-img-container"><img src={imgRest2} alt="Restaurante 2" /><div className="rest-overlay"><UtensilsCrossed /></div></div><h3>Ó Pascásio</h3></div>
+          <div className="restaurant-card animate-pop" style={{ animationDelay: '0.4s' }}><div className="rest-img-container"><img src={imgRest3} alt="Restaurante 3" /><div className="rest-overlay"><UtensilsCrossed /></div></div><h3>Pizzaria do Careca</h3></div>
+          <div className="restaurant-card animate-pop" style={{ animationDelay: '0.6s' }}><div className="rest-img-container"><img src={imgRest4} alt="Restaurante 4" /><div className="rest-overlay"><UtensilsCrossed /></div></div><h3>Villa Grill</h3></div>
         </div>
       </Section>
 
@@ -147,7 +218,7 @@ function App() {
           <h2>Localização e Contato</h2>
           <p>Estamos dentro do Condomínio Villa das Águas, na Praia do Saco - SE.</p>
           <div className="map-button-container">
-             <button onClick={abrirMaps} className="map-btn hover-animate"><MapPin size={22} /> Ver Localização Exata no Google Maps</button>
+            <button onClick={abrirMaps} className="map-btn hover-animate"><MapPin size={22} /> Ver Localização Exata no Google Maps</button>
           </div>
           <div className="contact-buttons-grid">
             <button onClick={abrirWhatsApp} className="contact-btn whatsapp hover-animate"><MessageCircle size={24} /> <span>Falar no WhatsApp</span></button>
@@ -163,10 +234,18 @@ function App() {
       {/* --- RODAPÉ --- */}
       <footer className="footer">
         <div className="footer-logo-container">
-            <img src={imgLogo} alt="Logo Refúgio do Villa" className="footer-logo" />
+          <img src={imgLogo} alt="Logo Refúgio do Villa" className="footer-logo" />
         </div>
         <p>© 2026 Refúgio do Villa. Todos os direitos reservados.</p>
       </footer>
+
+      {/* --- MODAL DA GALERIA --- */}
+      <PhotoGalleryModal
+        isOpen={galleryState.isOpen}
+        onClose={closeGallery}
+        photos={galleryState.photos}
+        title={galleryState.title}
+      />
     </div>
   );
 }

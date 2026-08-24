@@ -11,87 +11,124 @@ body {
   overflow-x: hidden;
 }
 
-/* --- HERO SECTION (CAPA COM CARROSSEL) --- */
-.hero {
-  position: relative;
-  height: 90vh;
+/* --- NAVBAR --- */
+.navbar {
+  background-color: #dfdfdf;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.nav-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 20px;
+  max-width: 1000px;
+  margin: 0 auto;
   width: 100%;
+}
+
+.nav-logo img {
+  max-height: 70px;
+  width: auto;
+}
+
+.nav-links {
   display: flex;
   align-items: center;
-  justify-content: center;
-  overflow: hidden; 
 }
 
-.hero-bg {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-size: cover;
-  background-position: center;
-  opacity: 0; /* Começa invisível */
-  transition: opacity 1.5s ease-in-out; 
-  z-index: 1;
-}
-
-.hero-bg.active {
-  opacity: 1;
-  transform: scale(1.05); 
-  transition: opacity 1.5s ease-in-out, transform 6s linear;
-}
-
-.hero-overlay {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(8, 0, 53, 0.266); 
-  z-index: 2;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 10;
-  text-align: center;
-  color: white;
-  padding: 20px;
-  max-width: 800px;
-}
-
-.hero-content h1 {
-  font-size: 3.5rem;
-  margin-bottom: 20px;
-  text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+.nav-text-btn {
+  background: none;
+  border: none;
+  font-size: 0.9rem;
   font-weight: 700;
-}
-
-.hero-content p {
-  font-size: 1.4rem;
-  margin-bottom: 30px;
-  font-weight: 300;
-  opacity: 0.9;
-}
-
-/* Bolinhas de navegação do slide */
-.hero-dots {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-top: 30px;
-}
-
-.dot {
-  width: 12px;
-  height: 12px;
-  background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 50%;
+  color: #080035;
   cursor: pointer;
-  transition: all 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+  padding: 10px;
 }
 
-.dot.active {
-  background-color: #b68c27; /* Dourado */
-  transform: scale(1.2);
+.nav-text-btn:hover {
+  color: #b68c27;
 }
 
 @media (max-width: 768px) {
-  .hero-content h1 { font-size: 2.5rem; }
+  .navbar {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px 20px;
+  }
+}
+
+/* --- NOVA HERO INSPIRADA EM CELEBRITY-HOTELS --- */
+.new-hero-section {
+  position: relative;
+  background-color: #080035;
+  background: linear-gradient(180deg, #080035 0%, #0a0045 100%);
+  color: white;
+  padding-top: 100px;
+  padding-bottom: 80px; /* Cria um espaço azul ABAIXO dos cards e antes do letreiro */
+  text-align: center;
+  overflow: hidden;
+}
+
+.bg-shape {
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.08); /* Mais puxado para o branco */
+  z-index: 1;
+}
+
+.bg-shape-1 {
+  width: 300px;
+  height: 300px;
+  top: -150px;
+  right: -150px;
+}
+
+.bg-shape-2 {
+  width: 250px;
+  height: 250px;
+  bottom: -150px;
+  left: -150px;
+}
+
+.new-hero-content {
+  position: relative;
+  z-index: 10;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px;
+  padding-bottom: 160px; /* Isso cria o espaço de respiro REAL entre o título e os cards */
+}
+
+.new-hero-subtitle {
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #d19a79;
+  margin-bottom: 40px; /* Aumentado para separar o Bem Vindo do Título */
+  font-weight: 600;
+}
+
+.new-hero-title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 0px;
+  color: #fff;
+}
+
+.text-gold {
+  color: #d19a79;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .new-hero-title { font-size: 2.8rem; }
+  .new-hero-section { padding-top: 60px; padding-bottom: 140px; }
 }
 
 /* --- CABEÇALHOS --- */
@@ -113,44 +150,141 @@ body {
   font-size: 1.1rem;
 }
 
-/* --- GALERIA DE FOTOS --- */
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: 300px 300px;
-  gap: 16px;
-  background-color: white;
-  padding: 16px;
-  border-radius: 12px;
+/* --- CARDS DE AMBIENTES SOBREPOSTOS --- */
+.middle-wrapper {
+  background-color: white; 
+  position: relative;
+  display: flex;
+  flex-direction: column; /* Evita margin-collapse com os cards */
 }
 
-.gallery-grid img {
+.overlapping-cards-container {
+  position: relative;
+  margin-top: -120px; /* Faz os cards sobreporem o fundo */
+  margin-bottom: 30px; /* Espaço entre os cards e a linha da animação */
+  z-index: 20;
+  padding: 0 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.overlapping-cards-scroll {
+  display: flex;
+  gap: 15px;
+  background: white; 
+  padding: 15px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  max-width: 1200px;
+  overflow-x: auto;
+  scrollbar-width: none; 
+}
+.overlapping-cards-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.celeb-card {
+  min-width: 220px;
+  width: 220px;
+  cursor: pointer;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  background: #f9f9f9;
+  transition: transform 0.3s ease;
+}
+
+.celeb-card:hover {
+  transform: translateY(-5px);
+}
+
+.celeb-card-img {
+  width: 100%;
+  height: 150px;
+  overflow: hidden;
+}
+
+.celeb-card-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 8px;
   transition: transform 0.5s ease;
 }
 
-.gallery-grid div {
-  overflow: hidden;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-
-.gallery-grid div:hover img {
+.celeb-card:hover .celeb-card-img img {
   transform: scale(1.05);
 }
 
-.photo-highlight { grid-column: span 2; grid-row: span 2; }
-.photo-wide { grid-column: span 2; }
+.celeb-card-info {
+  padding: 15px;
+  background: #dfdfdf; /* Mesma cor da navbar */
+  display: flex;
+  flex-direction: column;
+}
 
-@media (max-width: 768px) {
-  .gallery-grid {
-    display: flex;
-    flex-direction: column;
-  }
-  .gallery-grid div { height: 250px; }
+.celeb-card-label {
+  font-size: 0.65rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.celeb-card-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.celeb-card-title-row h3 {
+  font-size: 1rem;
+  color: #111;
+  font-weight: 700;
+  margin: 0;
+}
+
+.celeb-arrow {
+  color: #111;
+  font-weight: bold;
+}
+
+/* --- MARQUEE (LETREIRO ANIMADO) --- */
+.marquee-container {
+  width: 100%;
+  overflow: hidden;
+  background-color: #fff;
+  border-top: 1px solid #eaeaea; /* Linha leve dividindo */
+  border-bottom: 1px solid #eee;
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.marquee-content {
+  display: flex;
+  white-space: nowrap;
+  animation: scroll-left 40s linear infinite;
+}
+
+.marquee-group {
+  display: flex;
+  gap: 40px;
+  padding-right: 40px;
+}
+
+.marquee-group span {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #3d2f2d;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+@keyframes scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 /* --- COMODIDADES --- */
