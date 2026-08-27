@@ -1,24 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Star, MapPin, MessageCircle, Instagram, UtensilsCrossed, Image as ImageIcon, Circle } from 'lucide-react';
 import Section from './components/Section/Section';
 import Button from './components/Button/Button';
 import PhotoGalleryModal from './components/PhotoGalleryModal/PhotoGalleryModal';
+import BookingModal from './components/BookingModal/BookingModal';
 import { amenities, reviews } from './data';
+import { ConfigContext } from './context/ConfigContext';
 import './App.css';
 
-// --- IMAGENS ---
+// --- IMAGENS (Usadas apenas para o Hero) ---
 import imgLogo from './assets/logorefugio.png';
 import logoPng from './assets/logo.png';
 import imgFrente from './assets/frente-casa.JPG';
 import imgDestaque from './assets/areagourmet2.jpeg';
-import imgSala1 from './assets/sala.JPG';
-import imgSala2 from './assets/sala1.JPG';
 import imgDetalhe from './assets/imagem2.jpg';
-
-// --- GALERIA DE BAIXO ---
-import imgQuartoSuite2 from './assets/quarto-suite2.JPG';
-
-// --- IMAGENS PARA O CARROSSEL ---
 import imgVilla1 from './assets/villa1.jpeg';
 import imgImagem4 from './assets/imagem4.jpg';
 
@@ -37,8 +32,19 @@ const heroImages = [
 ];
 
 function App() {
+  const { config, loading, incrementView } = useContext(ConfigContext);
+  const environments = config.environments;
+
+  useEffect(() => {
+    // Registra visita assim que não estiver mais carregando o banco (para ter certeza que o banco existe)
+    if (!loading) {
+      incrementView();
+    }
+    // eslint-disable-next-line
+  }, [loading]);
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
 
   // --- ESTADOS DA GALERIA ---
   const [galleryState, setGalleryState] = useState({
@@ -47,34 +53,6 @@ function App() {
     title: '',
     photos: []
   });
-
-  // --- DADOS DOS AMBIENTES (Com fotos mockadas para chegar até 10) ---
-  const environments = [
-    {
-      id: 'sala',
-      title: 'Sala de Estar e Jantar',
-      cover: imgSala1,
-      photos: [imgSala1, imgSala2, imgDetalhe, imgSala1, imgSala2, imgSala1, imgSala2, imgDetalhe, imgSala1, imgSala2] // 10 fotos
-    },
-    {
-      id: 'cozinha',
-      title: 'Cozinha Completa',
-      cover: imgDestaque,
-      photos: [imgDestaque, imgDetalhe, imgDestaque, imgDetalhe, imgDestaque, imgDetalhe, imgDestaque, imgDetalhe, imgDestaque, imgDetalhe]
-    },
-    {
-      id: 'quartos',
-      title: 'Suítes Confortáveis',
-      cover: imgQuartoSuite2,
-      photos: [imgQuartoSuite2, imgQuartoSuite2, imgQuartoSuite2, imgQuartoSuite2, imgQuartoSuite2, imgQuartoSuite2, imgQuartoSuite2, imgQuartoSuite2, imgQuartoSuite2, imgQuartoSuite2]
-    },
-    {
-      id: 'area-externa',
-      title: 'Área Gourmet e Lazer',
-      cover: imgFrente,
-      photos: [imgFrente, imgDestaque, imgVilla1, imgFrente, imgDestaque, imgVilla1, imgFrente, imgDestaque, imgVilla1, imgFrente]
-    }
-  ];
 
   const openGallery = (env) => {
     setGalleryState({
@@ -105,7 +83,7 @@ function App() {
             <img src={logoPng} alt="Refúgio do Villa" />
           </div>
           <div className="nav-links">
-            <button className="nav-text-btn" onClick={abrirAirbnb}>Calendário / Disponibilidade</button>
+            <button className="nav-text-btn" onClick={() => setIsBookingModalOpen(true)}>Calendário / Disponibilidade</button>
           </div>
         </div>
       </nav>
@@ -245,6 +223,12 @@ function App() {
         onClose={closeGallery}
         photos={galleryState.photos}
         title={galleryState.title}
+      />
+
+      {/* --- MODAL DE RESERVAS --- */}
+      <BookingModal
+        isOpen={isBookingModalOpen}
+        onClose={() => setIsBookingModalOpen(false)}
       />
     </div>
   );

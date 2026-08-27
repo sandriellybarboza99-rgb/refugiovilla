@@ -1,0 +1,456 @@
+.admin-login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f4f4f4;
+}
+
+.admin-login-box {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.lock-icon {
+  background: rgba(182, 140, 39, 0.1);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.admin-login-box h2 {
+  color: #111a22;
+  margin-bottom: 10px;
+}
+
+.admin-login-box p {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.admin-input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 1rem;
+}
+
+.admin-input-small {
+  width: 120px;
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.admin-input:focus, .admin-input-small:focus {
+  outline: none;
+  border-color: #b68c27;
+}
+
+/* Dashboard Styles */
+.admin-dashboard {
+  min-height: 100vh;
+  background-color: #f4f7f6;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-nav {
+  background: #111a22;
+  color: white;
+  padding: 15px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+
+.admin-nav h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: #b68c27;
+}
+
+.admin-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.view-site-link {
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.view-site-link:hover {
+  opacity: 1;
+}
+
+.logout-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s;
+}
+
+.logout-btn:hover {
+  background: #e74c3c;
+}
+
+/* Layout */
+.admin-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+.admin-sidebar {
+  width: 250px;
+  background: white;
+  border-right: 1px solid #eee;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 15px 25px;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 0.95rem;
+  color: #555;
+  cursor: pointer;
+  border-left: 4px solid transparent;
+  transition: all 0.2s;
+}
+
+.sidebar-btn:hover {
+  background: #f9f9f9;
+  color: #111a22;
+}
+
+.sidebar-btn.active {
+  background: #fefbf5;
+  color: #b68c27;
+  border-left-color: #b68c27;
+  font-weight: 600;
+}
+
+.admin-main-content {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+}
+
+/* Cards & Grids */
+.admin-content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+
+.admin-card {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.admin-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 25px;
+  color: #111a22;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 15px;
+}
+
+.admin-card-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.admin-form .form-group {
+  margin-bottom: 20px;
+}
+
+.admin-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #444;
+}
+
+/* Dashboard Stats */
+.dashboard-stats {
+  display: flex;
+  gap: 20px;
+}
+.stat-box {
+  background: #f8f9fa;
+  border: 1px solid #eee;
+  padding: 20px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+}
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #b68c27;
+}
+.stat-label {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 5px;
+}
+
+/* Calendar */
+.calendar-admin-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.calendar-admin-section p {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.react-datepicker__day--highlighted {
+  background-color: #3498db !important;
+  color: white !important;
+  border-radius: 0.3rem;
+}
+
+.react-datepicker__day--highlighted:hover {
+  background-color: #2980b9 !important;
+}
+
+.react-datepicker__day--keyboard-selected {
+  background-color: rgba(182, 140, 39, 0.2) !important;
+  color: #111 !important;
+}
+
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--in-range {
+  background-color: #b68c27 !important;
+  color: white !important;
+}
+
+.date-action-panel {
+  background: #f9f9f9;
+  border: 1px solid #eee;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.date-action-panel h4 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.date-action-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.mt-2 {
+  margin-top: 15px;
+}
+
+.btn-sm {
+  padding: 8px 15px;
+  border-radius: 6px;
+  border: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-sm.primary {
+  background: #b68c27;
+  color: white;
+}
+.btn-sm.primary:hover {
+  background: #9a7620;
+}
+.btn-sm.outline {
+  background: transparent;
+  border: 1px solid #ddd;
+  color: #666;
+}
+.btn-sm.outline:hover {
+  background: #f1f1f1;
+}
+.btn-sm.success {
+  background: #2ecc71;
+  color: white;
+}
+.btn-sm.success:hover {
+  background: #27ae60;
+}
+.btn-sm.danger {
+  background: #e74c3c;
+  color: white;
+}
+.btn-sm.danger:hover {
+  background: #c0392b;
+}
+
+
+/* Photo Manager */
+.environments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.env-photo-manager {
+  background: #fafafa;
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.env-photo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.env-photo-header h4 {
+  margin: 0;
+  color: #111a22;
+}
+
+.upload-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #111a22;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.upload-btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.upload-btn:not([disabled]):hover {
+  background: #333;
+}
+
+.env-photos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+}
+
+.env-photo-item {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.env-photo-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.delete-photo-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(231, 76, 60, 0.9);
+  color: white;
+  border: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.env-photo-item:hover .delete-photo-btn {
+  opacity: 1;
+}
+
+.delete-photo-btn:hover {
+  background: #c0392b;
+  transform: scale(1.1);
+}
+
+
+@media (max-width: 900px) {
+  .admin-layout {
+    flex-direction: column;
+  }
+  .admin-sidebar {
+    width: 100%;
+    flex-direction: row;
+    padding: 0;
+    overflow-x: auto;
+  }
+  .sidebar-btn {
+    border-left: none;
+    border-bottom: 4px solid transparent;
+    padding: 15px;
+    white-space: nowrap;
+  }
+  .sidebar-btn.active {
+    border-bottom-color: #b68c27;
+  }
+  .admin-content-grid {
+    grid-template-columns: 1fr;
+  }
+}
