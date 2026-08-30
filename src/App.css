@@ -6,7 +6,7 @@
 }
 
 body {
-  background-color: #080035; 
+  background-color: #1b365d;
   color: #f0f0f0;
   overflow-x: hidden;
 }
@@ -14,7 +14,7 @@ body {
 /* --- NAVBAR --- */
 .navbar {
   background-color: #dfdfdf;
-  border-bottom: 1px solid rgba(0,0,0,0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .nav-content {
@@ -42,7 +42,7 @@ body {
   border: none;
   font-size: 0.9rem;
   font-weight: 700;
-  color: #080035;
+  color: #1b365d;
   cursor: pointer;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -55,21 +55,35 @@ body {
 }
 
 @media (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    gap: 15px;
-    padding: 15px 20px;
+  .nav-content {
+    padding: 10px;
+  }
+
+  .nav-logo img {
+    max-height: 40px;
+    /* Reduz significativamente a logo */
+  }
+
+  .nav-links {
+    gap: 2px;
+  }
+
+  .nav-text-btn {
+    padding: 4px;
+    font-size: 0.65rem;
+    /* Texto menor para caber em uma linha */
   }
 }
 
 /* --- NOVA HERO INSPIRADA EM CELEBRITY-HOTELS --- */
 .new-hero-section {
   position: relative;
-  background-color: #080035;
-  background: linear-gradient(180deg, #080035 0%, #0a0045 100%);
+  background-color: #1b365d;
+  background: linear-gradient(180deg, #1b365d 0%, #162c4c 100%);
   color: white;
   padding-top: 100px;
-  padding-bottom: 80px; /* Cria um espaço azul ABAIXO dos cards e antes do letreiro */
+  padding-bottom: 80px;
+  /* Cria um espaço azul ABAIXO dos cards e antes do letreiro */
   text-align: center;
   overflow: hidden;
 }
@@ -77,7 +91,8 @@ body {
 .bg-shape {
   position: absolute;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.08); /* Mais puxado para o branco */
+  background-color: rgba(255, 255, 255, 0.08);
+  /* Mais puxado para o branco */
   z-index: 1;
 }
 
@@ -101,7 +116,8 @@ body {
   max-width: 900px;
   margin: 0 auto;
   padding: 0 20px;
-  padding-bottom: 160px; /* Isso cria o espaço de respiro REAL entre o título e os cards */
+  padding-bottom: 160px;
+  /* Isso cria o espaço de respiro REAL entre o título e os cards */
 }
 
 .new-hero-subtitle {
@@ -109,7 +125,8 @@ body {
   letter-spacing: 2px;
   text-transform: uppercase;
   color: #d19a79;
-  margin-bottom: 40px; /* Aumentado para separar o Bem Vindo do Título */
+  margin-bottom: 40px;
+  /* Aumentado para separar o Bem Vindo do Título */
   font-weight: 600;
 }
 
@@ -127,8 +144,23 @@ body {
 }
 
 @media (max-width: 768px) {
-  .new-hero-title { font-size: 2.8rem; }
-  .new-hero-section { padding-top: 60px; padding-bottom: 140px; }
+  .new-hero-title {
+    font-size: 1.8rem;
+  }
+
+  .new-hero-subtitle {
+    font-size: 0.8rem;
+    margin-bottom: 25px;
+  }
+
+  .new-hero-section {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+
+  .new-hero-content {
+    padding-bottom: 70px;
+  }
 }
 
 /* --- CABEÇALHOS --- */
@@ -140,28 +172,31 @@ body {
 
 .section-header h2 {
   font-size: 2.5rem;
-  color: #ffffff; 
+  color: #ffffff;
   margin-bottom: 15px;
   font-weight: 700;
 }
 
 .section-header p {
-  color: #cccccc; 
+  color: #cccccc;
   font-size: 1.1rem;
 }
 
 /* --- CARDS DE AMBIENTES SOBREPOSTOS --- */
 .middle-wrapper {
-  background-color: white; 
+  background-color: white;
   position: relative;
   display: flex;
-  flex-direction: column; /* Evita margin-collapse com os cards */
+  flex-direction: column;
+  /* Evita margin-collapse com os cards */
 }
 
 .overlapping-cards-container {
   position: relative;
-  margin-top: -120px; /* Faz os cards sobreporem o fundo */
-  margin-bottom: 30px; /* Espaço entre os cards e a linha da animação */
+  margin-top: -120px;
+  /* Faz os cards sobreporem o fundo */
+  margin-bottom: 30px;
+  /* Espaço entre os cards e a linha da animação */
   z-index: 20;
   padding: 0 20px;
   display: flex;
@@ -171,14 +206,15 @@ body {
 .overlapping-cards-scroll {
   display: flex;
   gap: 15px;
-  background: white; 
+  background: white;
   padding: 15px;
   border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   max-width: 1200px;
   overflow-x: auto;
-  scrollbar-width: none; 
+  scrollbar-width: none;
 }
+
 .overlapping-cards-scroll::-webkit-scrollbar {
   display: none;
 }
@@ -217,7 +253,8 @@ body {
 
 .celeb-card-info {
   padding: 15px;
-  background: #dfdfdf; /* Mesma cor da navbar */
+  background: #dfdfdf;
+  /* Mesma cor da navbar */
   display: flex;
   flex-direction: column;
 }
@@ -254,7 +291,8 @@ body {
   width: 100%;
   overflow: hidden;
   background-color: #fff;
-  border-top: 1px solid #eaeaea; /* Linha leve dividindo */
+  border-top: 1px solid #eaeaea;
+  /* Linha leve dividindo */
   border-bottom: 1px solid #eee;
   padding: 20px 0;
   display: flex;
@@ -283,51 +321,164 @@ body {
 }
 
 @keyframes scroll-left {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
-/* --- COMODIDADES --- */
-.bg-cream {
-  background-color: #ffffff;
-  border-radius: 12px;
-  margin: 40px auto;
+/* --- NOVA SEÇÃO CONDOMÍNIO (ESTILO ACME) --- */
+.condo-section {
+  background-color: #f4f6f8;
+  padding: 80px 20px;
+  margin-top: 40px;
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+.condo-layout {
   max-width: 1200px;
-  padding: 40px 20px;
-}
-
-.bg-cream .section-header h2 { color: #080035; }
-.bg-cream .section-header p { color: #666; }
-
-.amenities-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 30px;
-  text-align: center;
-}
-
-.amenity-card {
+  margin: 0 auto;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 60px;
+}
+
+.condo-text-col {
+  flex: 1;
+}
+
+.condo-text-col h2 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: #1b365d;
+  line-height: 1.1;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.condo-subtitle {
+  font-size: 1rem;
+  color: #b68c27;
+  font-weight: 700;
+  margin-bottom: 25px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.condo-desc {
+  font-size: 1.15rem;
+  color: #444;
+  line-height: 1.7;
+}
+
+.condo-cards-col {
+  flex: 1.2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 20px;
+}
+
+.condo-card {
+  background: white;
+  padding: 20px 25px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  display: flex;
   align-items: center;
   gap: 15px;
-  padding: 25px;
-  background-color: #f8f8f8;
-  border: 1px solid #eee;
-  border-radius: 12px;
+  width: calc(50% - 10px);
+  border: 1px solid transparent;
   transition: all 0.3s ease;
 }
 
-.amenity-card:hover {
+.condo-card:hover {
   transform: translateY(-5px);
-  border-color: #b68c27;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-  background-color: white;
+  border-color: #1b365d;
+  box-shadow: 0 15px 35px rgba(27, 54, 93, 0.1);
 }
 
-.amenity-card span {
-  color: #080035;
-  font-weight: 600;
+.condo-card span {
+  color: #1b365d;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+/* --- REGRAS DA CASA (ACORDEÃO) --- */
+.rules-section {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.accordion-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.accordion-item {
+  background: #ffffff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.accordion-item:hover {
+  border-color: #b68c27;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.accordion-header {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 20px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1b365d;
+  cursor: pointer;
+}
+
+.accordion-icon {
+  color: #b68c27;
+  transition: transform 0.3s ease;
+}
+
+.accordion-item.open .accordion-icon {
+  transform: rotate(180deg);
+}
+
+.accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  background: #f9f9f9;
+}
+
+.accordion-item.open .accordion-body {
+  max-height: 250px; /* Suficiente para expandir o texto */
+}
+
+.accordion-content {
+  padding: 20px 25px;
+  color: #555;
+  line-height: 1.6;
+  font-size: 1rem;
+  border-top: 1px solid #eee;
 }
 
 /* --- RESTAURANTES DA REGIÃO (ESTILOS E ANIMAÇÕES) --- */
@@ -342,7 +493,7 @@ body {
   background: white;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   transition: transform 0.3s ease;
   text-align: center;
   padding-bottom: 15px;
@@ -373,7 +524,7 @@ body {
 
 .restaurant-card h3 {
   margin-top: 15px;
-  color: #080035;
+  color: #1b365d;
   font-size: 1.2rem;
 }
 
@@ -381,12 +532,12 @@ body {
   position: absolute;
   top: 10px;
   right: 10px;
-  background: rgba(255,255,255,0.9);
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 50%;
   padding: 8px;
   display: flex;
   color: #b68c27;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* --- DEPOIMENTOS --- */
@@ -400,14 +551,18 @@ body {
   background: white;
   padding: 35px;
   border-radius: 12px;
-  box-shadow: 0 4px 25px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.2);
   border: none;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.stars { margin-bottom: 15px; display: flex; gap: 4px; }
+.stars {
+  margin-bottom: 15px;
+  display: flex;
+  gap: 4px;
+}
 
 .review-card p {
   color: #555;
@@ -433,13 +588,13 @@ body {
 
 .user-info span {
   font-weight: 700;
-  color: #080035; 
+  color: #1b365d;
 }
 
 /* --- SEÇÃO FINAL (LOCALIZAÇÃO E CONTATO) --- */
 .final-cta-card {
-  background-color: #ffffff; 
-  color: #080035;
+  background-color: #ffffff;
+  color: #1b365d;
   padding: 60px 20px;
   border-radius: 20px;
   text-align: center;
@@ -448,7 +603,7 @@ body {
 }
 
 .final-cta-card h2 {
-  color: #080035;
+  color: #1b365d;
   margin-bottom: 10px;
   font-size: 2.5rem;
 }
@@ -470,7 +625,7 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  background-color: #080035; 
+  background-color: #1b365d;
   color: white;
   padding: 15px 30px;
   border-radius: 8px;
@@ -479,13 +634,13 @@ body {
   border: 2px solid #b68c27;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .map-btn:hover {
   transform: translateY(-2px);
-  background-color: #0a0045;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+  background-color: #162c4c;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
 .contact-buttons-grid {
@@ -510,20 +665,21 @@ body {
   color: white;
   min-width: 260px;
   transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .contact-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
 }
 
 .contact-btn.whatsapp {
   background-color: #b68c27;
   color: white;
 }
+
 .contact-btn.whatsapp:hover {
-  background-color: #080035;
+  background-color: #1b365d;
   color: white;
 }
 
@@ -531,8 +687,9 @@ body {
   background-color: #b68c27;
   color: white;
 }
+
 .contact-btn.instagram:hover {
-  background-color: #080035;
+  background-color: #1b365d;
   color: white;
 }
 
@@ -548,33 +705,56 @@ body {
   color: white;
   border: none;
 }
+
 .final-cta-card .btn.primary:hover {
-  background-color: #080035;
+  background-color: #1b365d;
   color: white;
 }
 
 
 /* --- ANIMAÇÕES GERAIS --- */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
+
 .animate-fade {
   animation: fadeIn 1.5s ease-out forwards;
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
 .animate-slide {
   animation: slideUp 1s ease-out forwards;
 }
 
 @keyframes popIn {
-  from { opacity: 0; transform: scale(0.8); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
+
 .animate-pop {
   animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
   opacity: 0;
@@ -583,6 +763,7 @@ body {
 .hover-animate {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
 .hover-animate:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 20px #0000004d;
@@ -594,22 +775,25 @@ body {
   backdrop-filter: blur(10px);
   color: #888;
   text-align: center;
-  padding: 30px 20px; 
+  padding: 30px 20px;
   margin-top: 60px;
   border-top: 1px solid rgba(182, 140, 39, 0.3);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px; 
+  gap: 5px;
 }
 
 .footer-logo {
-  max-width: 120px; 
+  max-width: 140px;
+  /* Tamanho intermediário */
   height: auto;
   opacity: 0.9;
   transition: opacity 0.3s;
-  margin-bottom: 0; 
+  margin-bottom: 15px;
   display: block;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: high-quality;
 }
 
 .footer-logo:hover {
@@ -617,8 +801,133 @@ body {
 }
 
 .footer p {
-  font-size: 0.85rem; 
+  font-size: 0.85rem;
   letter-spacing: 0.5px;
-  margin: 0; 
+  margin: 0;
   opacity: 0.7;
+}
+
+/* --- AJUSTES GERAIS MOBILE --- */
+@media (max-width: 768px) {
+
+  /* Cards Sobrepostos (Grid 2x2) */
+  .overlapping-cards-container {
+    margin-top: -60px;
+    padding: 0 10px;
+  }
+
+  .overlapping-cards-scroll {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* 2 colunas */
+    gap: 10px;
+    overflow-x: visible;
+    padding: 10px;
+  }
+
+  .celeb-card {
+    min-width: 100%;
+    width: 100%;
+  }
+
+  .celeb-card-img {
+    height: 100px;
+    /* Imagem menor para não ocupar a tela toda */
+  }
+
+  .celeb-card-info {
+    padding: 10px;
+  }
+
+  .celeb-card-label {
+    font-size: 0.55rem;
+    margin-bottom: 5px;
+  }
+
+  .celeb-card-title-row h3 {
+    font-size: 0.8rem;
+  }
+
+  /* Cabeçalhos de Seções */
+  .section-header {
+    margin-bottom: 30px;
+  }
+
+  .section-header h2 {
+    font-size: 1.8rem;
+  }
+
+  .section-header p {
+    font-size: 0.95rem;
+  }
+
+  /* Grids (Restaurantes e Depoimentos) */
+  .restaurants-grid,
+  .reviews-grid {
+    grid-template-columns: 1fr;
+    /* Força 1 coluna no celular */
+  }
+
+  /* Card Final de Contato */
+  .final-cta-card {
+    padding: 40px 15px;
+    border-radius: 15px;
+  }
+
+  .final-cta-card h2 {
+    font-size: 1.8rem;
+  }
+
+  .final-cta-card p {
+    font-size: 1rem;
+    margin-bottom: 25px;
+  }
+
+  .contact-buttons-grid {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .contact-btn {
+    width: 100%;
+    min-width: 100%;
+    font-size: 1rem;
+    padding: 14px 20px;
+  }
+
+  /* Nova Seção Condomínio */
+  .condo-section {
+    padding: 50px 15px;
+  }
+
+  .condo-layout {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .condo-text-col h2 {
+    font-size: 2.5rem;
+  }
+
+  .condo-cards-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* 2 colunas lado a lado */
+    gap: 10px;
+    width: 100%;
+  }
+
+  .condo-card {
+    width: 100%;
+    flex-direction: column;
+    /* Ícone em cima, texto embaixo */
+    text-align: center;
+    padding: 15px 5px;
+    gap: 8px;
+  }
+
+  .condo-card span {
+    font-size: 0.75rem;
+    /* Texto menor para caber nos cards menores */
+  }
 }

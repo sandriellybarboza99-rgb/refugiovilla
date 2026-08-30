@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import DatePicker from 'react-datepicker';
+import DatePicker, { registerLocale } from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { addDays, differenceInDays } from 'date-fns';
+import { ptBR } from 'date-fns/locale/pt-BR';
+registerLocale('pt-BR', ptBR);
 import { Calendar, Users, Calculator, Info } from 'lucide-react';
 import './BookingSimulator.css';
 import Button from '../Button/Button';
@@ -16,7 +18,10 @@ const BookingSimulator = () => {
   const [totalPrice, setTotalPrice] = useState(0);
 
   // Parse blocked dates from strings to Date objects
-  const blockedDates = config.blockedDates.map(dateStr => new Date(dateStr));
+  const blockedDates = config.blockedDates.map(dateStr => {
+    const [y, m, d] = dateStr.split('-');
+    return new Date(y, m - 1, d);
+  });
 
   // Calcula o total quando as datas ou hóspedes mudam
   useEffect(() => {
@@ -44,6 +49,32 @@ const BookingSimulator = () => {
 
   const handleDateChange = (dates) => {
     const [start, end] = dates;
+    
+    if (start && end) {
+      let current = new Date(start);
+      let hasBlockedDate = false;
+      
+      while (current <= end) {
+        const year = current.getFullYear();
+        const month = String(current.getMonth() + 1).padStart(2, '0');
+        const day = String(current.getDate()).padStart(2, '0');
+        const dateStr = `${year}-${month}-${day}`;
+        
+        if (config.blockedDates.includes(dateStr)) {
+          hasBlockedDate = true;
+          break;
+        }
+        current.setDate(current.getDate() + 1);
+      }
+      
+      if (hasBlockedDate) {
+        alert("Alguns dias desse período já estão ocupados. Escolha uma nova data de entrada ou de saída.");
+        setStartDate(start); // Mantém apenas a data inicial
+        setEndDate(null);
+        return;
+      }
+    }
+
     setStartDate(start);
     setEndDate(end);
   };
@@ -97,6 +128,7 @@ const BookingSimulator = () => {
             placeholderText="Check-in - Check-out"
             className="date-picker-input"
             dateFormat="dd/MM/yyyy"
+            locale="pt-BR"
             withPortal
           />
           {isInvalidStay && (

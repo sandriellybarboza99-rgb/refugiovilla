@@ -1,11 +1,14 @@
-import { Wifi, Car, Wind, Utensils, Dog } from 'lucide-react';
+import { Waves, Utensils, Fish, Smile, Gamepad2, Flame, Dribbble, TreePine } from 'lucide-react';
 
 export const amenities = [
-  { icon: Wifi, label: "Wi-Fi Rápido" },
-  { icon: Utensils, label: "Área Gourmet" },
-  { icon: Wind, label: "Ar Condicionado" },
-  { icon: Car, label: "Estacionamento" },
-  { icon: Dog, label: "Pet Friendly" },
+  { icon: Waves, label: "Piscina" },
+  { icon: Utensils, label: "Restaurante" },
+  { icon: Fish, label: "Lagos e Pesca" },
+  { icon: Smile, label: "Parque Infantil" },
+  { icon: Gamepad2, label: "Sala de Jogos" },
+  { icon: Flame, label: "Churrasqueiras" },
+  { icon: Dribbble, label: "Quadras Esportivas" },
+  { icon: TreePine, label: "Áreas Verdes" },
 ];
 
 export const reviews = [

@@ -159,3 +159,24 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* --- MOBILE RESPONSIVENESS --- */
+@media (max-width: 768px) {
+  .booking-simulator-container {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+  .simulator-body {
+    padding: 15px;
+  }
+  .date-picker-input, .guests-input-wrapper input {
+    font-size: 16px; /* Evita zoom automático no iOS */
+    padding: 10px;
+  }
+  .simulator-btn {
+    font-size: 1rem !important;
+  }
+}

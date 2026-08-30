@@ -2,19 +2,21 @@ import React, { useState, useContext, useEffect } from 'react';
 import { ConfigContext } from '../../context/ConfigContext';
 import { supabase } from '../../supabaseClient';
 import { Save, LogOut, Lock, Calendar, Settings, Image as ImageIcon, LayoutDashboard, Plus, Trash2 } from 'lucide-react';
-import DatePicker from 'react-datepicker';
+import DatePicker, { registerLocale } from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import { ptBR } from 'date-fns/locale/pt-BR';
+registerLocale('pt-BR', ptBR);
 import './Admin.css';
 import Button from '../../components/Button/Button';
 
 const Admin = () => {
   const { config, updateConfig, fetchData, loading } = useContext(ConfigContext);
-  
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState('');
-  
+
   const [activeTab, setActiveTab] = useState('dashboard');
-  
+
   const [formData, setFormData] = useState({
     diaria: 850,
     taxaFaxina: 150,
@@ -61,61 +63,49 @@ const Admin = () => {
   };
 
   // --- Calendário ---
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-  const [selectedRangeInfo, setSelectedRangeInfo] = useState(null);
+  const [selectedDates, setSelectedDates] = useState([]);
+  const [customPriceInput, setCustomPriceInput] = useState('');
 
-  const blockedDatesArray = (config.blockedDates || []).map(d => new Date(d));
+  const blockedDatesArray = (config.blockedDates || []).map(d => {
+    const [y, m, day] = d.split('-');
+    return new Date(y, m - 1, day);
+  });
 
-  const handleDateChange = (dates) => {
-    const [start, end] = dates;
-    setStartDate(start);
-    setEndDate(end);
+  const handleDateChange = (date) => {
+    if (!date) return;
+    
+    // Formata localmente para evitar fuso horário que muda o dia
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const dateStr = `${year}-${month}-${day}`;
 
-    if (start && !end) {
-      checkDateInfo(start);
-    } else if (start && end) {
-      checkDateInfo(start);
-    } else {
-      setSelectedRangeInfo(null);
-    }
-  };
-
-  const checkDateInfo = (start) => {
-    const startStr = start.toISOString().split('T')[0];
-    const isBlocked = config.blockedDates.includes(startStr);
-    const customPrice = config.customPrices[startStr] || config.diaria;
-    setSelectedRangeInfo({ isBlocked, customPrice });
+    setSelectedDates(prev => {
+      if (prev.includes(dateStr)) {
+        return prev.filter(d => d !== dateStr);
+      } else {
+        return [...prev, dateStr];
+      }
+    });
   };
 
   const applyCustomSettings = async (action) => {
-    if (!startDate) return;
-    
-    let datesToUpdate = [];
-    let current = new Date(startDate);
-    const end = endDate || startDate;
-    
-    while (current <= end) {
-      datesToUpdate.push(new Date(current).toISOString().split('T')[0]);
-      current.setDate(current.getDate() + 1);
-    }
+    if (selectedDates.length === 0) return;
 
     try {
       if (action === 'block') {
-         const upserts = datesToUpdate.map(d => ({ date: d, is_blocked: true, custom_price: null }));
-         await supabase.from('calendar_overrides').upsert(upserts);
+        const upserts = selectedDates.map(d => ({ date: d, is_blocked: true, custom_price: null }));
+        await supabase.from('calendar_overrides').upsert(upserts);
       } else if (action === 'unblock' || action === 'clearPrice') {
-         await supabase.from('calendar_overrides').delete().in('date', datesToUpdate);
+        await supabase.from('calendar_overrides').delete().in('date', selectedDates);
       } else if (action === 'setPrice') {
-         const upserts = datesToUpdate.map(d => ({ date: d, is_blocked: false, custom_price: selectedRangeInfo.customPrice }));
-         await supabase.from('calendar_overrides').upsert(upserts);
+        const upserts = selectedDates.map(d => ({ date: d, is_blocked: false, custom_price: parseFloat(customPriceInput) || 0 }));
+        await supabase.from('calendar_overrides').upsert(upserts);
       }
-      
+
       alert('Datas atualizadas com sucesso!');
       await fetchData(); // Recarrega do banco
-      setStartDate(null);
-      setEndDate(null);
-      setSelectedRangeInfo(null);
+      setSelectedDates([]); // Limpa a seleção após salvar
     } catch (err) {
       alert('Erro ao atualizar datas: ' + err.message);
     }
@@ -127,33 +117,33 @@ const Admin = () => {
   const handlePhotoUpload = async (e, envId) => {
     const file = e.target.files[0];
     if (!file) return;
-    
+
     try {
       setUploadingEnv(envId);
       const fileExt = file.name.split('.').pop();
       const fileName = `${Math.random()}.${fileExt}`;
       const filePath = `${envId}/${fileName}`;
-      
+
       // Upload para Storage
       const { error: uploadError } = await supabase.storage
         .from('house-images')
         .upload(filePath, file);
-        
+
       if (uploadError) throw uploadError;
-      
+
       // Pega URL pública
       const { data: { publicUrl } } = supabase.storage
         .from('house-images')
         .getPublicUrl(filePath);
-        
+
       // Insere no banco
       const { error: dbError } = await supabase.from('environment_photos').insert({
         environment_id: envId,
         image_url: publicUrl
       });
-      
+
       if (dbError) throw dbError;
-      
+
       await fetchData();
       alert('Foto adicionada!');
     } catch (error) {
@@ -164,16 +154,16 @@ const Admin = () => {
   };
 
   const removePhoto = async (photoUrl) => {
-    if(!window.confirm("Deseja realmente apagar esta foto?")) return;
+    if (!window.confirm("Deseja realmente apagar esta foto?")) return;
     try {
       // 1. Apaga do banco
       const { error: dbError } = await supabase.from('environment_photos').delete().eq('image_url', photoUrl);
       if (dbError) throw dbError;
-      
+
       // 2. Idealmente apaga do bucket também, mas só apagar do banco já some da tela.
       // const path = photoUrl.split('/house-images/')[1];
       // await supabase.storage.from('house-images').remove([path]);
-      
+
       await fetchData();
     } catch (err) {
       alert('Erro ao remover: ' + err.message);
@@ -187,22 +177,21 @@ const Admin = () => {
           <div className="lock-icon"><Lock size={40} color="#b68c27" /></div>
           <h2>Acesso Administrativo</h2>
           <p>Área restrita (conectado à nuvem Supabase).</p>
-          <input 
-            type="password" 
-            placeholder="Senha" 
+          <input
+            type="password"
+            placeholder="Senha"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="admin-input"
           />
-          <Button type="submit" variant="primary" style={{width: '100%'}}>Entrar</Button>
-          <p style={{fontSize: '0.8rem', color: '#666', marginTop: '10px'}}>Dica: admin123</p>
+          <Button type="submit" variant="primary" style={{ width: '100%' }}>Entrar</Button>
         </form>
       </div>
     );
   }
 
   if (loading) {
-    return <div style={{textAlign: 'center', padding: '100px', color: 'white'}}>Carregando banco de dados...</div>;
+    return <div style={{ textAlign: 'center', padding: '100px', color: 'white' }}>Carregando banco de dados...</div>;
   }
 
   return (
@@ -229,7 +218,7 @@ const Admin = () => {
         </aside>
 
         <main className="admin-main-content">
-          
+
           {/* TAB: DASHBOARD */}
           {activeTab === 'dashboard' && (
             <div className="tab-pane animate-fade">
@@ -270,9 +259,10 @@ const Admin = () => {
                       <label>Energia Padrão (R$/kWh)</label>
                       <input type="number" step="0.01" name="energiaKwh" value={formData.energiaKwh} onChange={handleChange} className="admin-input" />
                     </div>
-                    <Button type="submit" variant="primary"><Save size={18} style={{marginRight: 5}}/> Salvar Valores na Nuvem</Button>
+                    <Button type="submit" variant="primary"><Save size={18} style={{ marginRight: 5 }} /> Salvar Valores na Nuvem</Button>
                   </form>
                 </div>
+
 
                 <div className="admin-card">
                   <div className="admin-card-header">
@@ -280,32 +270,48 @@ const Admin = () => {
                     <h3>Preços Específicos e Bloqueios</h3>
                   </div>
                   <div className="calendar-admin-section">
-                    <p>Selecione uma data (ou clique e arraste para um período) para customizar o preço ou bloquear.</p>
-                    
+                    <p>Clique nas datas para selecioná-las (você pode selecionar várias). Depois escolha a ação abaixo.</p>
+
                     <DatePicker
                       inline
-                      selectsRange
-                      startDate={startDate}
-                      endDate={endDate}
+                      locale="pt-BR"
                       onChange={handleDateChange}
                       highlightDates={blockedDatesArray}
                       minDate={new Date()}
                       renderDayContents={(day, date) => {
-                        const dateStr = date.toISOString().split('T')[0];
+                        // Usa a mesma formatação local robusta
+                        const year = date.getFullYear();
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const dayStr = String(date.getDate()).padStart(2, '0');
+                        const dateStr = `${year}-${month}-${dayStr}`;
+
                         const customPrice = config.customPrices && config.customPrices[dateStr];
                         const isBlocked = config.blockedDates && config.blockedDates.includes(dateStr);
-                        
+                        const isSelected = selectedDates.includes(dateStr);
+
                         return (
-                          <div style={{ position: 'relative', paddingBottom: '10px' }}>
+                          <div 
+                            className={isSelected ? 'custom-selected-date' : ''}
+                            style={{ 
+                              position: 'relative', 
+                              paddingBottom: '10px',
+                              width: '100%',
+                              height: '100%',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              borderRadius: '0.3rem'
+                            }}
+                          >
                             {day}
                             {customPrice && !isBlocked && (
-                              <div style={{ 
-                                position: 'absolute', 
-                                bottom: '-8px', 
-                                left: '50%', 
-                                transform: 'translateX(-50%)', 
-                                fontSize: '0.6rem', 
-                                color: '#b68c27',
+                              <div style={{
+                                position: 'absolute',
+                                bottom: '-8px',
+                                left: '50%',
+                                transform: 'translateX(-50%)',
+                                fontSize: '0.6rem',
+                                color: isSelected ? 'white' : '#b68c27',
                                 fontWeight: 'bold'
                               }}>
                                 R${customPrice}
@@ -315,28 +321,26 @@ const Admin = () => {
                         );
                       }}
                     />
-                    
-                    {startDate && selectedRangeInfo && (
+
+                    {selectedDates.length > 0 && (
                       <div className="date-action-panel animate-slide">
-                        <h4>Ações para o período selecionado</h4>
+                        <h4>Ações para as {selectedDates.length} datas selecionadas</h4>
                         <div className="date-action-row">
                           <label>Preço Diária Customizado:</label>
-                          <input 
-                            type="number" 
+                          <input
+                            type="number"
                             className="admin-input-small"
-                            value={selectedRangeInfo.customPrice}
-                            onChange={(e) => setSelectedRangeInfo({...selectedRangeInfo, customPrice: parseFloat(e.target.value) || 0})}
+                            placeholder={config.diaria}
+                            value={customPriceInput}
+                            onChange={(e) => setCustomPriceInput(e.target.value)}
                           />
                           <button className="btn-sm primary" onClick={() => applyCustomSettings('setPrice')}>Salvar Preço</button>
                           <button className="btn-sm outline" onClick={() => applyCustomSettings('clearPrice')}>Restaurar Padrão</button>
                         </div>
-                        
+
                         <div className="date-action-row mt-2">
-                          {selectedRangeInfo.isBlocked ? (
-                            <button className="btn-sm success" onClick={() => applyCustomSettings('unblock')}>Desbloquear</button>
-                          ) : (
-                            <button className="btn-sm danger" onClick={() => applyCustomSettings('block')}>Bloquear Período</button>
-                          )}
+                          <button className="btn-sm danger" onClick={() => applyCustomSettings('block')}>Bloquear Selecionadas</button>
+                          <button className="btn-sm success" onClick={() => applyCustomSettings('unblock')}>Desbloquear Selecionadas</button>
                         </div>
                       </div>
                     )}
@@ -360,19 +364,19 @@ const Admin = () => {
                     <div key={env.id} className="env-photo-manager">
                       <div className="env-photo-header">
                         <h4>{env.title} ({env.photos.length} fotos)</h4>
-                        
+
                         <label className="upload-btn">
                           {uploadingEnv === env.id ? 'Enviando...' : <><Plus size={16} /> Adicionar Foto</>}
-                          <input 
-                            type="file" 
-                            accept="image/*" 
-                            style={{display: 'none'}} 
+                          <input
+                            type="file"
+                            accept="image/*"
+                            style={{ display: 'none' }}
                             disabled={uploadingEnv !== null}
-                            onChange={(e) => handlePhotoUpload(e, env.id)} 
+                            onChange={(e) => handlePhotoUpload(e, env.id)}
                           />
                         </label>
                       </div>
-                      
+
                       <div className="env-photos-grid">
                         {env.photos.map((photoUrl, idx) => (
                           <div key={idx} className="env-photo-item">

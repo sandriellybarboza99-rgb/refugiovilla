@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Star, MapPin, MessageCircle, Instagram, UtensilsCrossed, Image as ImageIcon, Circle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Star, MapPin, MessageCircle, Instagram, UtensilsCrossed, Image as ImageIcon, Circle, ChevronDown } from 'lucide-react';
 import Section from './components/Section/Section';
 import Button from './components/Button/Button';
 import PhotoGalleryModal from './components/PhotoGalleryModal/PhotoGalleryModal';
@@ -23,6 +24,30 @@ import imgRest2 from './assets/restaurante2.jpg';
 import imgRest3 from './assets/restaurante3.jpg';
 import imgRest4 from './assets/restaurante4.jpg';
 
+// --- REGRAS DA CASA ---
+const houseRules = [
+  {
+    title: "Horários de Check-in e Check-out",
+    content: "O horário de check-in é a partir das 14h, e o check-out deve ser realizado até as 12h. Exceções podem ser negociadas mediante disponibilidade prévia."
+  },
+  {
+    title: "Horário de Silêncio",
+    content: "Pedimos que respeitem o horário de silêncio das 22h às 08h, conforme regimento interno do condomínio, garantindo a tranquilidade de todos os vizinhos."
+  },
+  {
+    title: "Política de Pets",
+    content: "Aceitamos pets de pequeno porte! Lembre-se de manter seu amigo nas áreas permitidas do condomínio, sempre com guia, e de recolher qualquer sujeira."
+  },
+  {
+    title: "Visitantes e Eventos",
+    content: "Por motivos de segurança e regras do condomínio, não é permitida a entrada de visitantes extras não listados na reserva, nem a realização de festas e eventos."
+  },
+  {
+    title: "Política de Cancelamento",
+    content: "Cancelamentos feitos com até 7 dias de antecedência recebem reembolso integral. Após esse prazo, regras específicas da plataforma de reserva (como o Airbnb) poderão ser aplicadas."
+  }
+];
+
 // --- LISTA DO CARROSSEL DA CAPA ---
 const heroImages = [
   imgFrente,
@@ -32,6 +57,7 @@ const heroImages = [
 ];
 
 function App() {
+  const navigate = useNavigate();
   const { config, loading, incrementView } = useContext(ConfigContext);
   const environments = config.environments;
 
@@ -45,6 +71,11 @@ function App() {
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  
+  const [openRuleIndex, setOpenRuleIndex] = useState(null);
+  const toggleRule = (index) => {
+    setOpenRuleIndex(openRuleIndex === index ? null : index);
+  };
 
   // --- ESTADOS DA GALERIA ---
   const [galleryState, setGalleryState] = useState({
@@ -144,21 +175,28 @@ function App() {
         </div>
       </div>
 
-      {/* --- COMODIDADES --- */}
-      <Section className="bg-cream animate-slide">
-        <div className="section-header">
-          <h2>O Que Oferecemos</h2>
-          <p>Tudo o que você precisa para dias inesquecíveis.</p>
+      {/* --- NOVA SEÇÃO CONDOMÍNIO (ESTILO ACME) --- */}
+      <div className="condo-section animate-fade">
+        <div className="condo-layout">
+          <div className="condo-text-col">
+            <h2>VILLA DAS ÁGUAS</h2>
+            <p className="condo-subtitle">Localizado na Praia do Saco - SE</p>
+            <p className="condo-desc">
+              Descubra um verdadeiro resort particular. A casa fica localizada no Condomínio Villa das Águas, que oferece infraestrutura completa com piscinas, restaurante, lagos, área de pesca, parque infantil, sala de jogos, churrasqueiras, quadras de vôlei, futebol, basquete, tênis, além de incríveis áreas verdes de lazer.
+            </p>
+          </div>
+          <div className="condo-cards-col">
+            {amenities.map((item, index) => (
+              <div key={index} className="condo-card hover-animate">
+                <item.icon size={36} color="#1b365d" />
+                <span>{item.label}</span>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="amenities-grid">
-          {amenities.map((item, index) => (
-            <div key={index} className="amenity-card hover-animate">
-              <item.icon size={40} color="#b68c27" />
-              <span>{item.label}</span>
-            </div>
-          ))}
-        </div>
-      </Section>
+      </div>
+
+
 
       {/* --- RESTAURANTES --- */}
       <Section>
@@ -190,6 +228,35 @@ function App() {
         </div>
       </Section>
 
+      {/* --- REGRAS DA CASA E CONDOMÍNIO --- */}
+      <Section className="rules-section animate-slide">
+        <div className="section-header">
+          <h2>Informações e Regras</h2>
+          <p>Tudo o que você precisa saber para uma estadia perfeita e sem surpresas.</p>
+        </div>
+        <div className="accordion-container">
+          {houseRules.map((rule, index) => (
+            <div 
+              key={index} 
+              className={`accordion-item ${openRuleIndex === index ? 'open' : ''}`}
+            >
+              <button 
+                className="accordion-header" 
+                onClick={() => toggleRule(index)}
+              >
+                <span>{rule.title}</span>
+                <ChevronDown className="accordion-icon" />
+              </button>
+              <div className="accordion-body">
+                <div className="accordion-content">
+                  {rule.content}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Section>
+
       {/* --- LOCALIZAÇÃO E CONTATO --- */}
       <Section>
         <div className="final-cta-card animate-fade">
@@ -214,7 +281,7 @@ function App() {
         <div className="footer-logo-container">
           <img src={imgLogo} alt="Logo Refúgio do Villa" className="footer-logo" />
         </div>
-        <p>© 2026 Refúgio do Villa. Todos os direitos reservados.</p>
+        <p><span onClick={() => navigate('/admin')} style={{ cursor: 'default' }}>©</span> 2026 Refúgio do Villa. Todos os direitos reservados.</p>
       </footer>
 
       {/* --- MODAL DA GALERIA --- */}

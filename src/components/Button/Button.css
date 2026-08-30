@@ -17,7 +17,7 @@
 
 /* Botão Primário: Azul Marinho */
 .primary {
-  background-color: #080035; 
+  background-color: #1b365d; 
   color: white;
 }
 
@@ -28,11 +28,11 @@
 /* Botão Secundário: Borda Azul */
 .secondary {
   background-color: transparent;
-  color: #080035;
-  border: 2px solid #080035;
+  color: #1b365d;
+  border: 2px solid #1b365d;
 }
 
 .secondary:hover {
-  background-color: #080035;
+  background-color: #1b365d;
   color: white;
 }
