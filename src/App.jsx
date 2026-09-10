@@ -5,6 +5,7 @@ import Section from './components/Section/Section';
 import Button from './components/Button/Button';
 import PhotoGalleryModal from './components/PhotoGalleryModal/PhotoGalleryModal';
 import BookingModal from './components/BookingModal/BookingModal';
+import TouristSpotModal from './components/TouristSpotModal/TouristSpotModal';
 import { amenities, reviews } from './data';
 import { ConfigContext } from './context/ConfigContext';
 import './App.css';
@@ -23,6 +24,11 @@ import imgRest1 from './assets/restaurante1.jpg';
 import imgRest2 from './assets/restaurante2.jpg';
 import imgRest3 from './assets/restaurante3.jpg';
 import imgRest4 from './assets/restaurante4.jpg';
+
+// --- IMAGENS DOS PONTOS TURISTICOS ---
+import imgTour1 from './assets/tour1_buggy.jpg';
+import imgTour2 from './assets/tour2_lagoa.jpg';
+import imgTour3 from './assets/tour3_ilha.jpg';
 
 // --- REGRAS DA CASA ---
 const houseRules = [
@@ -56,6 +62,34 @@ const heroImages = [
   imgDetalhe
 ];
 
+// --- PONTOS TURISTICOS ---
+const touristSpots = [
+  {
+    id: 1,
+    title: "Passeio de Buggy nas Dunas",
+    image: imgTour1,
+    description: "Um emocionante passeio de buggy pelas dunas de areia branca da Praia do Saco, com paradas estratégicas para apreciar a vista deslumbrante do oceano e tirar fotos inesquecíveis.",
+    directions: "Ponto de encontro na própria Praia do Saco ou com agendamento direto com os bugueiros.",
+    distanceCar: "8"
+  },
+  {
+    id: 2,
+    title: "Lagoa dos Tambaquis",
+    image: imgTour2,
+    description: "Uma lagoa cristalina famosa por abrigar grandes tambaquis. É possível interagir e alimentar os peixes, além de desfrutar de uma ótima estrutura de bares e restaurantes.",
+    directions: "Acesso fácil pela rodovia SE-100, sentido Abais/Praia do Saco.",
+    distanceCar: "8"
+  },
+  {
+    id: 3,
+    title: "Ilha da Sogra",
+    image: imgTour3,
+    description: "Um banco de areia paradisíaco, acessível apenas por barco ou lancha, com águas cristalinas e calmas, formando belíssimas piscinas naturais. Um verdadeiro paraíso escondido.",
+    directions: "Para chegar lá, é preciso ir de carro até o atracadouro na Praia do Saco e, de lá, pegar uma lancha ou barco para a travessia.",
+    distanceCar: "10"
+  }
+];
+
 function App() {
   const navigate = useNavigate();
   const { config, loading, incrementView } = useContext(ConfigContext);
@@ -71,7 +105,8 @@ function App() {
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
-  
+  const [selectedTouristSpot, setSelectedTouristSpot] = useState(null);
+
   const [openRuleIndex, setOpenRuleIndex] = useState(null);
   const toggleRule = (index) => {
     setOpenRuleIndex(openRuleIndex === index ? null : index);
@@ -212,17 +247,25 @@ function App() {
         </div>
       </Section>
 
-      {/* --- DEPOIMENTOS --- */}
+      {/* --- PONTOS TURÍSTICOS --- */}
       <Section>
         <div className="section-header animate-slide">
-          <h2>Experiências Reais</h2>
+          <h2>Pontos Turísticos</h2>
+          <p>Explore as maravilhas da nossa região durante sua estadia.</p>
         </div>
-        <div className="reviews-grid">
-          {reviews.map((rev) => (
-            <div key={rev.id} className="review-card hover-animate">
-              <div className="stars">{[...Array(rev.stars)].map((_, i) => (<Star key={i} size={18} fill="#b68c27" stroke="none" />))}</div>
-              <p>"{rev.text}"</p>
-              <div className="user-info"><img src={rev.avatar} alt={rev.name} /><span>{rev.name}</span></div>
+        <div className="restaurants-grid">
+          {touristSpots.map((spot, index) => (
+            <div 
+              key={spot.id} 
+              className="restaurant-card animate-pop" 
+              style={{ animationDelay: `${index * 0.2}s`, cursor: 'pointer' }}
+              onClick={() => setSelectedTouristSpot(spot)}
+            >
+              <div className="rest-img-container">
+                <img src={spot.image} alt={spot.title} />
+                <div className="rest-overlay"><MapPin /></div>
+              </div>
+              <h3>{spot.title}</h3>
             </div>
           ))}
         </div>
@@ -236,12 +279,12 @@ function App() {
         </div>
         <div className="accordion-container">
           {houseRules.map((rule, index) => (
-            <div 
-              key={index} 
+            <div
+              key={index}
               className={`accordion-item ${openRuleIndex === index ? 'open' : ''}`}
             >
-              <button 
-                className="accordion-header" 
+              <button
+                className="accordion-header"
                 onClick={() => toggleRule(index)}
               >
                 <span>{rule.title}</span>
@@ -296,6 +339,13 @@ function App() {
       <BookingModal
         isOpen={isBookingModalOpen}
         onClose={() => setIsBookingModalOpen(false)}
+      />
+
+      {/* --- MODAL DE PONTO TURÍSTICO --- */}
+      <TouristSpotModal
+        isOpen={!!selectedTouristSpot}
+        onClose={() => setSelectedTouristSpot(null)}
+        spot={selectedTouristSpot}
       />
     </div>
   );
