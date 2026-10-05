@@ -19,12 +19,6 @@ import imgDetalhe from './assets/imagem2.jpg';
 import imgVilla1 from './assets/villa1.jpeg';
 import imgImagem4 from './assets/imagem4.jpg';
 
-// --- IMAGENS DOS RESTAURANTES ---
-import imgRest1 from './assets/restaurante1.jpg';
-import imgRest2 from './assets/restaurante2.jpg';
-import imgRest3 from './assets/restaurante3.jpg';
-import imgRest4 from './assets/restaurante4.jpg';
-
 // --- IMAGENS DOS PONTOS TURISTICOS ---
 import imgTour1 from './assets/tour1_buggy.jpg';
 import imgTour2 from './assets/tour2_lagoa.jpg';
@@ -217,7 +211,7 @@ function App() {
             <h2>VILLA DAS ÁGUAS</h2>
             <p className="condo-subtitle">Localizado na Praia do Saco - SE</p>
             <p className="condo-desc">
-              Descubra um verdadeiro resort particular. A casa fica localizada no Condomínio Villa das Águas, que oferece infraestrutura completa com piscinas, restaurante, lagos, área de pesca, parque infantil, sala de jogos, churrasqueiras, quadras de vôlei, futebol, basquete, tênis, além de incríveis áreas verdes de lazer.
+              Muito mais que uma estadia: uma pausa completa na sua rotina. Localizada em um condomínio fechado de alto padrão, a casa oferece o equilíbrio perfeito entre o sossego particular e uma estrutura impecável de lazer ao ar livre para todas as idades.
             </p>
           </div>
           <div className="condo-cards-col">
@@ -233,19 +227,7 @@ function App() {
 
 
 
-      {/* --- RESTAURANTES --- */}
-      <Section>
-        <div className="section-header animate-slide">
-          <h2>Gastronomia Local</h2>
-          <p>Restaurantes incríveis a poucos minutos do condomínio.</p>
-        </div>
-        <div className="restaurants-grid">
-          <div className="restaurant-card animate-pop"><div className="rest-img-container"><img src={imgRest1} alt="Restaurante 1" /><div className="rest-overlay"><UtensilsCrossed /></div></div><h3>Frutos do Mar JG</h3></div>
-          <div className="restaurant-card animate-pop" style={{ animationDelay: '0.2s' }}><div className="rest-img-container"><img src={imgRest2} alt="Restaurante 2" /><div className="rest-overlay"><UtensilsCrossed /></div></div><h3>Ó Pascásio</h3></div>
-          <div className="restaurant-card animate-pop" style={{ animationDelay: '0.4s' }}><div className="rest-img-container"><img src={imgRest3} alt="Restaurante 3" /><div className="rest-overlay"><UtensilsCrossed /></div></div><h3>Pizzaria do Careca</h3></div>
-          <div className="restaurant-card animate-pop" style={{ animationDelay: '0.6s' }}><div className="rest-img-container"><img src={imgRest4} alt="Restaurante 4" /><div className="rest-overlay"><UtensilsCrossed /></div></div><h3>Villa Grill</h3></div>
-        </div>
-      </Section>
+
 
       {/* --- PONTOS TURÍSTICOS --- */}
       <Section>

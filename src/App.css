@@ -145,12 +145,14 @@ body {
 
 @media (max-width: 768px) {
   .new-hero-title {
-    font-size: 1.8rem;
+    font-size: 2.2rem;
+    line-height: 1.1;
   }
 
   .new-hero-subtitle {
-    font-size: 0.8rem;
-    margin-bottom: 25px;
+    font-size: 0.65rem;
+    margin-bottom: 20px;
+    line-height: 1.4;
   }
 
   .new-hero-section {
@@ -811,43 +813,7 @@ body {
 /* --- AJUSTES GERAIS MOBILE --- */
 @media (max-width: 768px) {
 
-  /* Cards Sobrepostos (Grid 2x2) */
-  .overlapping-cards-container {
-    margin-top: -60px;
-    padding: 0 10px;
-  }
-
-  .overlapping-cards-scroll {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    /* 2 colunas */
-    gap: 10px;
-    overflow-x: visible;
-    padding: 10px;
-  }
-
-  .celeb-card {
-    min-width: 100%;
-    width: 100%;
-  }
-
-  .celeb-card-img {
-    height: 100px;
-    /* Imagem menor para não ocupar a tela toda */
-  }
-
-  .celeb-card-info {
-    padding: 10px;
-  }
-
-  .celeb-card-label {
-    font-size: 0.55rem;
-    margin-bottom: 5px;
-  }
-
-  .celeb-card-title-row h3 {
-    font-size: 0.8rem;
-  }
+  /* Cards Sobrepostos removidos daqui para manter o comportamento web (horizontal scroll) */
 
   /* Cabeçalhos de Seções */
   .section-header {
@@ -863,10 +829,34 @@ body {
   }
 
   /* Grids (Restaurantes e Depoimentos) */
-  .restaurants-grid,
+  .restaurants-grid {
+    display: flex;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    gap: 15px;
+    padding-bottom: 10px;
+    scrollbar-width: none;
+  }
+
+  .restaurants-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .restaurant-card {
+    flex: 0 0 auto;
+    width: 250px;
+  }
+
   .reviews-grid {
     grid-template-columns: 1fr;
-    /* Força 1 coluna no celular */
+  }
+  
+  .restaurant-card h3 {
+    font-size: 1rem;
+  }
+  
+  .rest-img-container {
+    height: 150px;
   }
 
   /* Card Final de Contato */
@@ -907,13 +897,13 @@ body {
   }
 
   .condo-text-col h2 {
-    font-size: 2.5rem;
+    font-size: 2rem;
+    white-space: normal;
   }
 
   .condo-cards-col {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    /* 2 colunas lado a lado */
     gap: 10px;
     width: 100%;
   }
@@ -921,7 +911,7 @@ body {
   .condo-card {
     width: 100%;
     flex-direction: column;
-    /* Ícone em cima, texto embaixo */
+    justify-content: center;
     text-align: center;
     padding: 15px 5px;
     gap: 8px;
@@ -929,7 +919,6 @@ body {
 
   .condo-card span {
     font-size: 0.75rem;
-    /* Texto menor para caber nos cards menores */
   }
 }
 
