@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Star, MapPin, MessageCircle, Instagram, UtensilsCrossed, Image as ImageIcon, Circle, ChevronDown } from 'lucide-react';
+import { Star, MapPin, MessageCircle, Instagram, Image as ImageIcon, Circle, ChevronDown } from 'lucide-react';
 import Section from './components/Section/Section';
 import Button from './components/Button/Button';
 import PhotoGalleryModal from './components/PhotoGalleryModal/PhotoGalleryModal';
@@ -44,7 +44,7 @@ const houseRules = [
   },
   {
     title: "Política de Cancelamento",
-    content: "Cancelamentos feitos com até 7 dias de antecedência recebem reembolso integral. Após esse prazo, regras específicas da plataforma de reserva (como o Airbnb) poderão ser aplicadas."
+    content: "Cancelamentos feitos com até 7 dias de antecedência recebem reembolso integral. Após esse prazo, consulte nossa equipe."
   }
 ];
 
@@ -70,7 +70,7 @@ const touristSpots = [
     id: 2,
     title: "Lagoa dos Tambaquis",
     image: imgTour2,
-    description: "Uma lagoa cristalina famosa por abrigar grandes tambaquis. É possível interagir e alimentar os peixes, além de desfrutar de uma ótima estrutura de bares e restaurantes.",
+    description: "Uma lagoa cristalina famosa por abrigar grandes tambaquis. É possível interagir e alimentar os peixes, além de desfrutar de uma ótima estrutura de bares.",
     directions: "Acesso fácil pela rodovia SE-100, sentido Abais/Praia do Saco.",
     distanceCar: "8"
   },
@@ -128,7 +128,7 @@ function App() {
   };
 
   // --- LINKS ---
-  const abrirAirbnb = () => { window.open('https://www.airbnb.com.br/rooms/40076062', '_blank'); };
+
   const abrirMaps = () => { window.open('https://www.google.com/maps/search/?api=1&query=Condomínio+Villa+das+Águas+Praia+do+Saco', '_blank'); };
   const abrirWhatsApp = () => { window.open('https://wa.me/5579981236700', '_blank'); };
   const abrirInstagram = () => { window.open('https://instagram.com/refugiodovilla', '_blank'); };
@@ -185,7 +185,7 @@ function App() {
         <div className="marquee-container">
           <div className="marquee-content">
             <div className="marquee-group">
-              <span>✦ ALUGAMOS PELO AIRBNB</span>
+
               <span>✦ ACEITAMOS PET</span>
               <span>✦ TODAS AS SUÍTES SÃO CLIMATIZADAS</span>
               <span>✦ CHURRASQUEIRA</span>
@@ -193,7 +193,7 @@ function App() {
               <span>✦ TODOS OS QUARTOS SÃO SUÍTES</span>
             </div>
             <div className="marquee-group" aria-hidden="true">
-              <span>✦ ALUGAMOS PELO AIRBNB</span>
+
               <span>✦ ACEITAMOS PET</span>
               <span>✦ TODAS AS SUÍTES SÃO CLIMATIZADAS</span>
               <span>✦ CHURRASQUEIRA</span>
@@ -235,17 +235,17 @@ function App() {
           <h2>Pontos Turísticos</h2>
           <p>Explore as maravilhas da nossa região durante sua estadia.</p>
         </div>
-        <div className="restaurants-grid">
+        <div className="tourist-spots-grid">
           {touristSpots.map((spot, index) => (
             <div 
               key={spot.id} 
-              className="restaurant-card animate-pop" 
+              className="tourist-spot-card animate-pop" 
               style={{ animationDelay: `${index * 0.2}s`, cursor: 'pointer' }}
               onClick={() => setSelectedTouristSpot(spot)}
             >
-              <div className="rest-img-container">
+              <div className="spot-img-container">
                 <img src={spot.image} alt={spot.title} />
-                <div className="rest-overlay"><MapPin /></div>
+                <div className="spot-overlay"><MapPin /></div>
               </div>
               <h3>{spot.title}</h3>
             </div>
@@ -294,10 +294,7 @@ function App() {
             <button onClick={abrirWhatsApp} className="contact-btn whatsapp hover-animate"><MessageCircle size={24} /> <span>Falar no WhatsApp</span></button>
             <button onClick={abrirInstagram} className="contact-btn instagram hover-animate"><Instagram size={24} /> <span>@refugiodovilla</span></button>
           </div>
-          <div className="airbnb-fallback">
-            <p>Ou reserve diretamente pela plataforma:</p>
-            <Button variant="primary" onClick={abrirAirbnb}>Reservar pelo Airbnb</Button>
-          </div>
+
         </div>
       </Section>
 
